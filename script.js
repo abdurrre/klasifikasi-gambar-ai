@@ -8,7 +8,7 @@ async function runInference(imgElement) {
     text.innerText = 'Menganalisis citra...';
 
     try {
-        const model = await tf.loadGraphModel('./public/model.json');
+        const model = await tf.loadGraphModel('./model_assets/model.json');
         const tensor = tf.browser.fromPixels(imgElement)
             .resizeNearestNeighbor([150, 150])
             .toFloat()
