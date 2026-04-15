@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Klasifikasi Lanskap AI — Arsitektur Deep Learning</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    
+    <style>
+        :root {
+            /* Palette Dark Green Formal */
+            --bg-deep: #06110F;        /* Latar belakang sangat gelap */
+            --card-surface: #0E1F1B;   /* Permukaan kartu/container */
+            --accent-emerald: #10B981; /* Hijau emerald untuk tombol/aksen */
+            --border-muted: #1F332F;   /* Garis halus */
+            --text-primary: #E2E8F0;   /* Putih tulang (off-white) */
+            --text-muted: #94A3B8;     /* Abu-abu sage untuk subtitle */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-primary);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .dashboard-card {
+            background-color: var(--card-surface);
+            width: 100%;
+            max-width: 520px;
+            padding: 48px;
+            border-radius: 20px;
+            border: 1px solid var(--border-muted);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            letter-spacing: -0.025em;
+            color: var(--text-primary);
+        }
+
+        .subtitle {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* Tombol Upload Formal */
+        .upload-area {
+            position: relative;
+            border: 2px dashed var(--border-muted);
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .upload-area:hover {
+            border-color: var(--accent-emerald);
+            background-color: rgba(16, 185, 129, 0.03);
+        }
+
+        #imageSelector {
+            display: none;
+        }
+
+        .upload-label {
+            font-weight: 500;
+            color: var(--accent-emerald);
+            display: block;
+        }
+
+        /* Pratinjau Citra */
+        .image-preview-wrapper {
+            margin-top: 32px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-muted);
+            display: none;
+            background: #000;
+        }
+
+        #preview {
+            width: 100%;
+            display: block;
+            opacity: 0.9;
+        }
+
+        /* Panel Hasil Analisis */
+        .analysis-panel {
+            margin-top: 32px;
+            padding: 24px;
+            background-color: rgba(6, 17, 15, 0.5);
+            border-radius: 12px;
+            border-left: 4px solid var(--accent-emerald);
+            display: none;
+            animation: slideUp 0.4s ease-out;
+        }
+
+        .label-heading {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .prediction-value {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--accent-emerald);
+            margin: 0;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        footer {
+            margin-top: 40px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-card">
+        <header>
+            <h1>Landscape Classifier</h1>
+            <p class="subtitle">Platform analisis citra berbasis Convolutional Neural Network untuk identifikasi elemen geografis.</p>
+        </header>
+
+        <div class="upload-area" onclick="document.getElementById('imageSelector').click()">
+            <span class="upload-label" id="uploadStatus">Pilih atau Seret Citra ke Sini</span>
+            <input type="file" id="imageSelector" accept="image/*">
+        </div>
+
+        <div class="image-preview-wrapper" id="previewWrapper">
+            <img id="preview" alt="Input Citra Analisis">
+        </div>
+
+        <div class="analysis-panel" id="analysisPanel">
+            <div class="label-heading">Hasil Klasifikasi AI</div>
+            <p class="prediction-value" id="predictionText">Menginisialisasi...</p>
+        </div>
+
+        <footer>
+            Dikembangkan untuk portofolio Machine Learning • 2026
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
